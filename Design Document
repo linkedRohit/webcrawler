@@ -1,0 +1,55 @@
+In this problem we will get urls (a lot of urls) on each URL crawl. 
+So keeping those in structure which is fast to search is very important.
+Note: We are searching here to find if we have already crawled that url, else it will be fixed in an infinite loop.
+i.e If http://python.org contains http://www.google.com and vice-versa, we will be stucked in a loop.
+
+My Approach
+
+I crawl the first url,
+insert all Urls found on this url to a indexed tree and a queue.
+
+
+
+******* Insertion in tree is based on the domain.*************
+
+It means that for urls like
+
+        URL                                    HASH
+https://www.python.org/                    xhxhakuiee
+https://www.python.org/psf-landing         wowjappiow
+https://www.python.org/jobs                owiuaksjds
+https://www.python.org/community           wiwioqpppp
+...
+...
+
+
+I stored them in a tree, keeping hash of www.python.org (say xhxhakuiee) as root.
+
+Tree looks like
+           www.python.org                https://status.python.org#updates-dropdown-atom
+            xhxhakuiee                         iwieieioqooq
+    _________|   |   |_________              ---   ---   ---
+   |             |             |             |      |      |
+wowjappiow    owiuaksjds   wiwioqpppp          
+
+So every time I get a new url like https://www.python.org/events,
+I just have to search in subtree with root hash(www.python.org) = xhxhakuiee
+
+So searching gets faster, it is only log(n) may be even lesser.
+
+
+
+************** Pushing to the queue **************
+
+After checking if the url is new or duplicate, comes the part when we have to crawl all urls.
+
+So all the unique Urls I got, I pushed them to a queue.
+
+So I traverse the queue until it gets empty or the total urls crawled has reached the count user provided.
+    I pop out the first element from the queue and crawls the url
+    Add the newly found urls in the indexed tree and the queue
+    continue
+    
+    
+    
+    
