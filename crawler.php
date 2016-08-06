@@ -1,7 +1,13 @@
 <?php
     //Inluding a library to do the DOM operations in php
     include('simple_html_dom.php');
+    error_reporting(0); //This suppresses any notices, warnings and messages thrown by PHP.
 
+    $crawler = new Crawler();
+    $crawler->getInputsFromUser();
+    $crawler->crawlTheSite($crawler->getUrl());
+
+    //This is a crawler class that contains all the functions to perform crawling.
     class Crawler {
 	protected $url = false;
 	protected $numLinks = -1;
@@ -112,20 +118,16 @@
 	    $crawledUrlsCount = 0; //Considering initial url out of the total count for crawled urls.
 	    echo "Crawling the following urls : " . "\n";
 	    while(count($crawledUrlsQueue) > 0 && $crawledUrlsCount <= $this->numLinks) {
-//var_dump($crawledUrlsQueue);
-		$crawlingUrl = array_pop($crawledUrlsQueue); //Getting the first element of the queue, array_pop is php's inbuilt function : O(1)
-//var_dump($crawledUrlsQueue);
+		$crawlingUrl = $crawledUrlsQueue[0];
+		array_splice($crawledUrlsQueue, 0, 1); // Getting the first element of the queue and pop the element out from queue FIFO.
 		if(strtolower(substr($crawlingUrl,0,4)) != "http")
 		    continue;
-//var_dump(count($crawledUrlsQueue), $crawledUrlsQueue[0]);
-//	echo "\n".$crawlingUrl . "\n";
-		$urlsFound = $this->crawlUrl($crawlingUrl);
-//var_dump(count($urlsFound));
-		$this->addCrawledUrls($urlsFound, $crawledUrlsQueue);
 		echo $crawledUrlsCount . ".) " . $crawlingUrl . "\n";
+		$urlsFound = $this->crawlUrl($crawlingUrl);
+		$this->addCrawledUrls($urlsFound, $crawledUrlsQueue);
 		$crawledUrlsCount++;
-		//sleep(200);
             }
+	    echo "Finished crawling the url : " . $this->url . "\n";
 	}
 
         private function crawlUrl($url) {
@@ -134,7 +136,6 @@
 	    for($i =0; $i < count($urlsFound); $i++) {
 		$urlsFound[$i] = $this->rel2abs($urlsFound[$i], $baseUrl); //Getting absolute urls from relative urls found on page.
 		if(!$this->validateUrl($urlsFound[$i])) {
-//echo $urlsFound[$i];
 		    unset($urlsFound[$i]);  
 		}
 	    }
@@ -142,7 +143,7 @@
 	        $urlsFound = array_values($urlsFound); //Reindexing the array values
 	    else
 		$urlsFound = array();
-	    return $urlsFound; //*/array_splice($urlsFound, 0 , 10);
+	    return $urlsFound; //*/array_splice($urlsFound, 0 , 5);*/
         }
 
 	//Function picked up from internet search - Stack overflow.
@@ -201,6 +202,7 @@
 	    return $urlsFound;
 	/* Ignoring link and script tags, as we will not find any meaningful content from those urls
 	   However If we need to do so, we can do as the below commented code and filter the files when reading content from them
+
 	    // Find all links from anchor tags
             foreach($html->find('script') as $element)
                 array_push($urlsFound, $element->src);
@@ -211,21 +213,9 @@
 	    $filters = array("php", "js", "css", "jpeg", "jpg", "png", "gif", "tiff"
 	    ...
 	    ...
+
 	*/
         }
-/*	        foreach($html->find("a") as $li){
-	            $url=perfect_url($li->href,$u);
-		    $enurl=urlencode($url);
-		    if($url!='' && substr($url,0,4)!="mail" && substr($url,0,4)!="java" && array_key_exists($enurl,$found_urls)==0){
-		        $found_urls[$enurl]=1;
-		    }
-	        }*/
     }
-    
-    $crawler = new Crawler();
-error_reporting(1);
-    $crawler->getInputsFromUser();
-    $crawler->crawlTheSite($crawler->getUrl());
-
     
 ?>
