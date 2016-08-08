@@ -13,8 +13,12 @@ This **README** would normally document whatever steps are necessary to get your
 * No dependencies, It uses a file simple_html_dom.php which provides functions to access DOM elements in php. I have not written simple_html_dom.php and downloaded it from the internet.
 * No Database configuration Required as of now. I have kept the urls in local PHP memory.
 * This is a command line executable program, so just run it with command as below
-	<executable path of php> crawler.php
-	e.g /usr/local/php/bin/php crawler.php or php crawler.php
+<executable path of php> crawler.php
+	
+e.g */usr/local/php/bin/php crawler.php* or * php crawler.php *
+	
+	
+	
 
 ### Who do I talk to? ###
 
