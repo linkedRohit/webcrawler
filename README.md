@@ -15,7 +15,7 @@ This **README** would normally document whatever steps are necessary to get your
 * This is a command line executable program, so just run it with command as below
 <executable path of php> crawler.php
 	
-e.g */usr/local/php/bin/php crawler.php* or * php crawler.php *
+e.g */usr/local/php/bin/php crawler.php* or *php crawler.php*
 	
 	
 	
