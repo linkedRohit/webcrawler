@@ -17,6 +17,7 @@ This **README** would normally document whatever steps are necessary to get your
 	
 e.g */usr/local/php/bin/php crawler.php* or *php crawler.php*
 	
+![Crawler Image, source: novojurislegal](https://novojurislegal.files.wordpress.com/2015/02/web-crawler-2.jpg)
 	
 	
 
